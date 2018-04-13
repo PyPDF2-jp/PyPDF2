@@ -144,9 +144,11 @@ def readUntilRegex(stream, regex, ignore_eof=False):
 def detectEncoding(s, default='latin-1'):
     encodings = ('utf-8', 'cp932', 'euc_jp', 'ascii')
     is_detect = False
+    is_bytes = isinstance(s, bytes)
+
     for encoding in encodings:
         try:
-            s.encode(encoding)
+            s.decode(encoding) if is_bytes == True else s.encode(encoding)
             is_detect = True
             break
         except UnicodeDecodeError:
